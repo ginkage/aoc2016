@@ -3,6 +3,7 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <map>
 #include <queue>
 #include <regex>
@@ -15,6 +16,7 @@
 #include <unistd.h>
 #include <Eigen/Dense>
 //#include <png++/png.hpp>
+#include <openssl/md5.h>
 
 using namespace std;
 
@@ -71,4 +73,14 @@ vector<uint64_t> split_u64(const string &s, const string &delimiter) {
     return res;
 }
 
+static const char *hexdigit = "0123456789abcdef";
+static unsigned char digest[MD5_DIGEST_LENGTH];
+
+string md5(string buf) {
+    MD5((const unsigned char *)buf.c_str(), buf.size(), digest);
+    stringstream out;
+    for (int i = 0; i < MD5_DIGEST_LENGTH; i++)
+        out << hexdigit[digest[i] >> 4] << hexdigit[digest[i] & 0x0F];
+    return out.str();
+}
 
