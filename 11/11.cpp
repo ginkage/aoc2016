@@ -67,8 +67,8 @@ bool is_end(uint32_t s) {
     return true;
 }
 
-unordered_set<uint32_t> new_states(uint32_t s) {
-    unordered_set<uint32_t> result;
+vector<uint32_t> new_states(uint32_t s) {
+    vector<uint32_t> result;
     int myfloor = get_floor(s);
     for (int nf = myfloor - 1; nf <= myfloor + 1; nf++)
         if (nf >= 0 && nf < 4 && nf != myfloor) {
@@ -76,33 +76,33 @@ unordered_set<uint32_t> new_states(uint32_t s) {
             for (int i = 0; i < parts; i++) {
                 if (get_chip(s, i) == myfloor) {
                     uint32_t ns = set_chip(ms, i, nf);
-                    if (is_valid(ns)) result.insert(ns);
+                    if (is_valid(ns)) result.push_back(ns);
                     if (get_gen(s, i) == myfloor) {
                         uint32_t nns = set_gen(ns, i, nf);
-                        if (is_valid(nns)) result.insert(nns);
+                        if (is_valid(nns)) result.push_back(nns);
                     }
                     for (int j = i + 1; j < parts; j++) {
                         if (get_chip(s, j) == myfloor) {
                             uint32_t nns = set_chip(ns, j, nf);
-                            if (is_valid(nns)) result.insert(nns);
+                            if (is_valid(nns)) result.push_back(nns);
                         }
                         if (get_gen(s, j) == myfloor) {
                             uint32_t nns = set_gen(ns, j, nf);
-                            if (is_valid(nns)) result.insert(nns);
+                            if (is_valid(nns)) result.push_back(nns);
                         }
                     }
                 }
                 if (get_gen(s, i) == myfloor) {
                     uint32_t ns = set_gen(ms, i, nf);
-                    if (is_valid(ns)) result.insert(ns);
+                    if (is_valid(ns)) result.push_back(ns);
                     for (int j = i + 1; j < parts; j++) {
                         if (get_chip(s, j) == myfloor) {
                             uint32_t nns = set_chip(ns, j, nf);
-                            if (is_valid(nns)) result.insert(nns);
+                            if (is_valid(nns)) result.push_back(nns);
                         }
                         if (get_gen(s, j) == myfloor) {
                             uint32_t nns = set_gen(ns, j, nf);
-                            if (is_valid(nns)) result.insert(nns);
+                            if (is_valid(nns)) result.push_back(nns);
                         }
                     }
                 }
